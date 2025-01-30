@@ -45,17 +45,16 @@ afterEvaluate {
     publishing {
         publications {
             create<MavenPublication>("release") {
-                groupId = "com.github.yohaisim"
-                artifactId = "AdsLibrary"
+                groupId = "com.github.yohaisim" 
+                artifactId = "adslibrary"
                 version = "1.0.0"
 
-                afterEvaluate {
-                    from(components.findByName("release") ?: return@afterEvaluate)
-                }
+                artifact(tasks.getByName("bundleReleaseAar"))
             }
         }
     }
 }
+
 
 
 
