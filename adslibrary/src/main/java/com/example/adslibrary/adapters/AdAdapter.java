@@ -1,6 +1,5 @@
 package com.example.adslibrary.adapters;
 
-import com.example.adslibrary.R;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -12,10 +11,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
+import com.example.adslibrary.R;
 import com.example.adslibrary.models.Ad;
 import com.example.adslibrary.models.ClickRequest;
-import com.example.adslibrary.network.RetrofitClient;
 import com.example.adslibrary.network.ApiService;
+import com.example.adslibrary.network.RetrofitClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -24,10 +24,12 @@ import java.util.List;
 public class AdAdapter extends RecyclerView.Adapter<AdAdapter.AdViewHolder> {
     private Context context;
     private List<Ad> adList;
+    private ApiService apiService; // הוספנו את המשתנה הזה כדי למנוע קריאות חוזרות
 
     public AdAdapter(Context context, List<Ad> adList) {
         this.context = context;
         this.adList = adList;
+        this.apiService = RetrofitClient.getClient().create(ApiService.class); // פתרון לשגיאה
     }
 
     @NonNull
@@ -47,7 +49,6 @@ public class AdAdapter extends RecyclerView.Adapter<AdAdapter.AdViewHolder> {
 
         holder.itemView.setOnClickListener(v -> {
             // דיווח לשרת על קליק
-            ApiService apiService = RetrofitClient.getClient();
             apiService.updateClickCount(new ClickRequest(ad.getTitle())).enqueue(new Callback<Void>() {
                 @Override
                 public void onResponse(Call<Void> call, Response<Void> response) {
@@ -68,7 +69,7 @@ public class AdAdapter extends RecyclerView.Adapter<AdAdapter.AdViewHolder> {
 
     @Override
     public int getItemCount() {
-        return adList.size();
+        return (adList != null) ? adList.size() : 0; // הוספת בדיקה למנוע קריסה
     }
 
     public static class AdViewHolder extends RecyclerView.ViewHolder {

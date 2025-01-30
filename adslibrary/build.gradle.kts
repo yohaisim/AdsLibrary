@@ -31,6 +31,7 @@ android {
 dependencies {
     annotationProcessor(libs.compiler)
     implementation(libs.retrofit)
+    api("com.squareup.picasso:picasso:2.71828")
     implementation(libs.converter.gson)
     implementation (libs.glide)
     implementation(libs.appcompat)
