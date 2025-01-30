@@ -29,7 +29,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":adslibrary"))
     annotationProcessor(libs.compiler)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
@@ -45,7 +44,7 @@ afterEvaluate {
     publishing {
         publications {
             create<MavenPublication>("release") {
-                groupId = "com.github.yohaisim" 
+                groupId = "com.github.yohaisim"
                 artifactId = "adslibrary"
                 version = "1.0.0"
 
