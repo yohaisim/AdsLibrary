@@ -1,6 +1,6 @@
 plugins {
     alias(libs.plugins.android.library)
-}
+    id("maven-publish") }
 
 android {
     namespace = "com.example.adslibrary"
@@ -40,3 +40,22 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 }
+
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("release") {
+                groupId = "com.github.yohaisim"
+                artifactId = "AdsLibrary"
+                version = "1.0.0"
+
+                afterEvaluate {
+                    from(components.findByName("release") ?: return@afterEvaluate)
+                }
+            }
+        }
+    }
+}
+
+
+
