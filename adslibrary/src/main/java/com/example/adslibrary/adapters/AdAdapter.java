@@ -13,6 +13,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.adslibrary.models.Ad;
+import com.example.adslibrary.models.ClickRequest;
+import com.example.adslibrary.network.RetrofitClient;
+import com.example.adslibrary.network.ApiService;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import java.util.List;
 
 public class AdAdapter extends RecyclerView.Adapter<AdAdapter.AdViewHolder> {
@@ -40,6 +46,21 @@ public class AdAdapter extends RecyclerView.Adapter<AdAdapter.AdViewHolder> {
         Glide.with(context).load(ad.getImageUrl()).into(holder.image);
 
         holder.itemView.setOnClickListener(v -> {
+            // דיווח לשרת על קליק
+            ApiService apiService = RetrofitClient.getClient();
+            apiService.updateClickCount(new ClickRequest(ad.getTitle())).enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    // אין צורך בתגובה, רק דיווח
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    t.printStackTrace();
+                }
+            });
+
+            // פתיחת הפרסומת בדפדפן
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(ad.getClickUrl()));
             context.startActivity(browserIntent);
         });
@@ -62,4 +83,3 @@ public class AdAdapter extends RecyclerView.Adapter<AdAdapter.AdViewHolder> {
         }
     }
 }
-

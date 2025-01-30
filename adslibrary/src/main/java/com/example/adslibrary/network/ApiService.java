@@ -15,8 +15,9 @@ public interface ApiService {
     @GET("ads")
     Call<List<Ad>> getAds();
     Call<Void> reportView(@Body ViewRequest viewRequest);
-    @POST("/ads/click")
+    @POST("ads/click")
     Call<Void> updateClickCount(@Body ClickRequest clickRequest);
+
     @POST("/ads/view")
     Call<Void> updateViewCount(@Body ViewRequest viewRequest);
 

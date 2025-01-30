@@ -1,10 +1,16 @@
 package com.example.adslibrary.models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Ad {
     private String title;
     private String description;
-    private String image_url;
-    private String click_url;
+
+    @SerializedName("image_url")
+    private String imageUrl;
+
+    @SerializedName("click_url")
+    private String clickUrl;
 
     public String getTitle() {
         return title;
@@ -15,10 +21,10 @@ public class Ad {
     }
 
     public String getImageUrl() {
-        return image_url;
+        return imageUrl;
     }
 
     public String getClickUrl() {
-        return click_url;
+        return clickUrl;
     }
 }
